@@ -47,6 +47,7 @@ class NimbusConstants(object):
         FIREFOX_99 = "99.0"
         FIREFOX_100 = "100.0"
 
+    MAX_SLUG_LEN = 80
     MAX_DURATION = 1000
 
     # Bucket stuff
