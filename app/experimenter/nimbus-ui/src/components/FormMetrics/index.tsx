@@ -5,6 +5,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import Select from "react-select";
 import {
   getExperiment,
   getExperiment_experimentBySlug_primaryProbeSets,
@@ -12,8 +13,6 @@ import {
 } from "../../types/getExperiment";
 import { useCommonForm, useConfig, useExitWarning } from "../../hooks";
 import { SelectOption } from "../../hooks/useCommonForm";
-
-import Select from "react-select";
 
 type FormMetricsProps = {
   experiment: getExperiment["experimentBySlug"];

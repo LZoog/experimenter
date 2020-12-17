@@ -14,7 +14,7 @@ const onNext = action("onNext");
 storiesOf("components/FormMetrics", module)
   .add("basic", () => <Subject {...{ onSave, onNext }} />)
   .add("loading", () => <Subject isLoading {...{ onSave, onNext }} />)
-  .add("errors", () => (
+  .add("server/submit errors", () => (
     <Subject
       submitErrors={{
         "*": ["Big bad server thing broke!"],
