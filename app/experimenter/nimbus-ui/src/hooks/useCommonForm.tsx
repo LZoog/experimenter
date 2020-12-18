@@ -83,6 +83,8 @@ export function useCommonForm<FieldNames extends string>(
 
   const FormErrors = <K extends FieldNames>({ name }: { name: K }) => (
     <>
+      {/* Don't wrap these errors in a container or they may not display properly
+     due to Bootstrap's error adjacent class CSS rules */}
       {errors[name] && (
         <Form.Control.Feedback type="invalid" data-for={name}>
           {(errors[name] as FieldError).message}
@@ -95,9 +97,9 @@ export function useCommonForm<FieldNames extends string>(
       )}
       {/* for testing - can't wrap the errors in a container with a test ID
       because of Bootstrap's adjacent class CSS rules */}
-      {!errors[name] && !submitErrors[name] && (
+      {/* {!errors[name] && !submitErrors[name] && (
         <span data-testid={`${name}-form-errors`} />
-      )}
+      )} */}
     </>
   );
 
