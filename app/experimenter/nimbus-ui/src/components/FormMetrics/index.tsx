@@ -14,6 +14,11 @@ import {
 import { useCommonForm, useConfig, useExitWarning } from "../../hooks";
 import { SelectOption } from "../../hooks/useCommonForm";
 
+export const metricsFieldNames = [
+  "primaryProbeSetIds",
+  "secondaryProbeSetIds",
+] as const;
+
 type FormMetricsProps = {
   experiment: getExperiment["experimentBySlug"];
   isLoading: boolean;
@@ -92,7 +97,7 @@ const FormMetrics = ({
     handleSubmit,
     reset,
     isSubmitted,
-  } = useCommonForm(
+  } = useCommonForm<typeof metricsFieldNames[number]>(
     defaultValues,
     isServerValid,
     submitErrors,
