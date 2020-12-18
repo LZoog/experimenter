@@ -23,7 +23,7 @@ describe("hooks/useCommonForm", () => {
       return { nameField: screen.getByLabelText("Public name"), submitErrors };
     };
 
-    it("clears submit error onchange of input field with error", async () => {
+    it("clears submit error onChange of input field with error", async () => {
       const { nameField, submitErrors } = overviewSetup();
       const nameError = screen.getByText(submitErrors["name"][0]);
       expect(nameField).toHaveClass("is-invalid");
@@ -40,7 +40,7 @@ describe("hooks/useCommonForm", () => {
       expect(nameError).not.toBeInTheDocument();
     });
 
-    it("does not clear submit error onChange of unchanged field with error", async () => {
+    it("clears only its own field submit error onChange of field with error", async () => {
       const { nameField, submitErrors } = overviewSetup();
       const getHypothesisError = () =>
         screen.queryByText(submitErrors["hypothesis"][0]);
@@ -65,13 +65,18 @@ describe("hooks/useCommonForm", () => {
       const { experiment } = mockExperimentQuery("boo", {
         primaryProbeSets: [],
       });
-      render(<MetricsSubject {...{ submitErrors, experiment }} />);
+      const { container } = render(
+        <MetricsSubject {...{ submitErrors, experiment }} />,
+      );
 
       const primaryProbeSets = screen.getByTestId("primary-probe-sets");
       const errorFeedback = screen.getByText(
         submitErrors.primaryProbeSetIds[0],
       );
       expect(errorFeedback).toBeInTheDocument();
+      expect(
+        container.querySelector("[for='primaryProbeSetIds'] + div"),
+      ).toHaveClass("is-invalid border border-danger rounded");
 
       fireEvent.keyDown(primaryProbeSets.children[1], { key: "ArrowDown" });
       fireEvent.click(screen.getByText("Probe Set A"));
