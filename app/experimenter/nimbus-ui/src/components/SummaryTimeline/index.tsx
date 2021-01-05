@@ -6,7 +6,7 @@ import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import pluralize from "../../lib/pluralize";
 import { getExperiment_experimentBySlug } from "../../types/getExperiment";
-import { NotSet } from "../Summary";
+import NotSet from "../NotSet";
 import { getStatus, StatusCheck } from "../../lib/experiment";
 import { humanDate } from "../../lib/dateUtils";
 
@@ -64,9 +64,11 @@ const StartEnd = ({
         <span className="flex-fill" data-testid="label-start-date">
           {humanDate(startDate!)}
         </span>
-        <span className="flex-fill text-right" data-testid="label-end-date">
-          {humanDate(endDate!)}
-        </span>
+        {endDate && (
+          <span className="flex-fill text-right" data-testid="label-end-date">
+            {humanDate(endDate!)}
+          </span>
+        )}
       </>
     )}
   </div>
