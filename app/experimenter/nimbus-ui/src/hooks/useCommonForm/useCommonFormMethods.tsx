@@ -16,6 +16,10 @@ import { camelToSnakeCase } from "../../lib/caseConversions";
 
 export type SelectOption = { label: string; value: string };
 
+export const FIELD_REQUIRED = {
+  required: "This field may not be blank.",
+};
+
 export const IsDirtyUnsaved = (
   isDirty: boolean,
   isValid: boolean,
@@ -38,13 +42,11 @@ export function useCommonFormMethods<FieldNames extends string>(
     }
   };
 
-  // Fields are required by default. Pass an empty object `{}` as `registerOptions`
-  // to allow form submission without that field being required.
+  // Fields are NOT required by default. Pass `FIELD_REQUIRED` into `registerOptions`
+  // to require a valid field before form submission is allowed.
   const formControlAttrs = <K extends FieldNames>(
     name: K,
-    registerOptions: RegisterOptions = {
-      required: "This field may not be blank.",
-    },
+    registerOptions: RegisterOptions = {},
     setDefaultValue = true,
     prefix?: string,
   ) => {

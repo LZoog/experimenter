@@ -9,6 +9,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import ReactTooltip from "react-tooltip";
 import { useCommonForm, useExitWarning } from "../../hooks";
+import { FIELD_REQUIRED } from "../../hooks/useCommonForm/useCommonFormMethods";
 import { useConfig } from "../../hooks/useConfig";
 import { ReactComponent as Info } from "../../images/info.svg";
 import { ReactComponent as DeleteIcon } from "../../images/x.svg";
@@ -135,7 +136,7 @@ const FormOverview = ({
       <Form.Group controlId="name">
         <Form.Label>Public name</Form.Label>
         <Form.Control
-          {...formControlAttrs("name")}
+          {...formControlAttrs("name", FIELD_REQUIRED)}
           type="text"
           autoFocus={!experiment}
         />
@@ -148,7 +149,7 @@ const FormOverview = ({
       <Form.Group controlId="hypothesis">
         <Form.Label>Hypothesis</Form.Label>
         <Form.Control
-          {...formControlAttrs("hypothesis")}
+          {...formControlAttrs("hypothesis", FIELD_REQUIRED)}
           as="textarea"
           rows={5}
         />
@@ -169,7 +170,10 @@ const FormOverview = ({
             readOnly
           />
         ) : (
-          <Form.Control {...formControlAttrs("application")} as="select">
+          <Form.Control
+            {...formControlAttrs("application", FIELD_REQUIRED)}
+            as="select"
+          >
             <option value="">Select...</option>
             {application!.map((app, idx) => (
               <option key={`application-${idx}`} value={app!.value as string}>
@@ -204,7 +208,7 @@ const FormOverview = ({
             <Form.Control
               as="textarea"
               rows={3}
-              {...formControlAttrs("publicDescription", {})}
+              {...formControlAttrs("publicDescription")}
             />
             <Form.Text className="text-muted">
               This description will be public to users on about:studies
@@ -223,7 +227,7 @@ const FormOverview = ({
               )}
             </Form.Label>
             <Form.Control
-              {...formControlAttrs("riskMitigationLink", {})}
+              {...formControlAttrs("riskMitigationLink")}
               type="url"
             />
             <Form.Text className="text-muted">
