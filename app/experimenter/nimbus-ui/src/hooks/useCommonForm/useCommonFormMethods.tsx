@@ -16,10 +16,6 @@ import { camelToSnakeCase } from "../../lib/caseConversions";
 
 export type SelectOption = { label: string; value: string };
 
-export const FIELD_REQUIRED = {
-  required: "This field may not be blank.",
-};
-
 export const IsDirtyUnsaved = (
   isDirty: boolean,
   isValid: boolean,
@@ -42,7 +38,50 @@ export function useCommonFormMethods<FieldNames extends string>(
     }
   };
 
-  // Fields are NOT required by default. Pass `FIELD_REQUIRED` into `registerOptions`
+  const hideNestedSubmitError = <K extends FieldNames>(
+    name: K,
+    prefix: string,
+  ) => {
+    const snakeCaseName = camelToSnakeCase(name);
+    if (submitErrors && submitErrors[snakeCaseName]) {
+      let modifiedSubmitErrors = { ...submitErrors };
+      delete modifiedSubmitErrors[snakeCaseName];
+      const index = prefix.match(/\d+/)?.[0];
+
+      if (!index) {
+        // @ts-ignore
+        modifiedSubmitErrors = {
+          [camelToSnakeCase(prefix)]: modifiedSubmitErrors,
+        };
+      } else {
+        // remove [${idx}]
+        const prefixNoIndex = prefix.replace(/\[(.)\]/g, "");
+        console.log("prefixNoIndex", prefixNoIndex);
+        // @ts-ignore
+
+        const generateObjects = (index: number) => {
+          // we need at least one empty object even if `index = 0`
+          const objects = [];
+          for (let i = 0; i < index; i++) {
+            objects.push({});
+          }
+          return objects;
+        };
+        const indexedSubmitErrors = [
+          ...generateObjects(parseInt(index)),
+          modifiedSubmitErrors,
+        ];
+        // @ts-ignore
+        modifiedSubmitErrors = {
+          [camelToSnakeCase(prefixNoIndex)]: indexedSubmitErrors,
+        };
+      }
+      console.log("modified", modifiedSubmitErrors);
+      setSubmitErrors(modifiedSubmitErrors);
+    }
+  };
+
+  // Fields are optional by default. Pass `FIELD_REQUIRED` into `registerOptions`
   // to require a valid field before form submission is allowed.
   const formControlAttrs = <K extends FieldNames>(
     name: K,
@@ -60,7 +99,8 @@ export function useCommonFormMethods<FieldNames extends string>(
       // usually for hidden form fields or checkbox inputs
       ...(setDefaultValue && {
         defaultValue: defaultValues[name],
-        onChange: () => hideSubmitError(name),
+        onChange: () =>
+          prefix ? hideNestedSubmitError(name, prefix) : hideSubmitError(name),
         isInvalid: Boolean(
           submitErrors![camelToSnakeCase(name)] ||
             (touched[name] && errors[name]),

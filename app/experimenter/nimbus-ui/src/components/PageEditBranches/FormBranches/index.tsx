@@ -64,8 +64,10 @@ export const FormBranches = ({
   );
 
   // TODO: EXP-614 submitErrors type is any, but in practical use it's AnnotatedBranch["errors"]
-  const setSubmitErrors = (submitErrors: any) =>
+  const setSubmitErrors = (submitErrors: any) => {
+    console.log("setting submit errors", submitErrors);
     dispatch({ type: "setSubmitErrors", submitErrors });
+  };
 
   const formMethods = useForm(defaultValues);
 

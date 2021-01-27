@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import ReactTooltip from "react-tooltip";
 import { useCommonForm, useExitWarning } from "../../hooks";
-import { FIELD_REQUIRED } from "../../hooks/useCommonForm/useCommonFormMethods";
 import { useConfig } from "../../hooks/useConfig";
 import { ReactComponent as Info } from "../../images/info.svg";
 import { ReactComponent as DeleteIcon } from "../../images/x.svg";
@@ -42,6 +41,10 @@ export const overviewFieldNames = [
   "riskMitigationLink",
   "documentationLinks",
 ] as const;
+
+export const FIELD_REQUIRED = {
+  required: "This field may not be blank.",
+};
 
 type OverviewFieldName = typeof overviewFieldNames[number];
 
