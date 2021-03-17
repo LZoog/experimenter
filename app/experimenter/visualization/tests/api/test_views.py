@@ -68,6 +68,7 @@ class TestVisualizationView(TestCase):
                 },
                 "difference": {"all": [], "first": {}},
                 "relative_uplift": {"all": [], "first": {}},
+                "significance": {"overall": {}, "weekly": {}},
             }
             formatted_data_without_pop[branch]["branch_data"][primary_metric] = {
                 "absolute": {
@@ -76,6 +77,7 @@ class TestVisualizationView(TestCase):
                 },
                 "difference": {"all": [], "first": {}},
                 "relative_uplift": {"all": [], "first": {}},
+                "significance": {"overall": {}, "weekly": {}},
             }
             data.append(
                 {
@@ -122,7 +124,10 @@ class TestVisualizationView(TestCase):
             "daily": DATA_WITHOUT_POPULATION_PERCENTAGE,
             "weekly": FORMATTED_DATA_WITHOUT_POPULATION_PERCENTAGE,
             "overall": FORMATTED_DATA_WITH_POPULATION_PERCENTAGE,
-            "other_metrics": {"some_count": "Some Count"},
+            "other_metrics": {
+                "some_count": "Some Count",
+                "another_count": "Another Count",
+            },
             "metadata": {},
             "show_analysis": False,
         }
