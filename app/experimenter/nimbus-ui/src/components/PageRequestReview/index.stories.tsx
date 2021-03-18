@@ -17,9 +17,7 @@ import { mock, Subject, SubjectEXP1060 } from "./mocks";
 
 storiesOf("pages/RequestReview", module)
   .addDecorator(withLinks)
-  .add("draft status", () => {
-    return <Subject />;
-  })
+
   .add("preview status", () => {
     const { mock } = mockExperimentQuery("demo-slug", {
       status: NimbusExperimentStatus.PREVIEW,
@@ -43,6 +41,11 @@ storiesOf("pages/RequestReview", module)
       <PageRequestReview polling={false} />
     </RouterSlugProvider>
   ));
+
+storiesOf("pages/RequestReview/draft status", module)
+  .addDecorator(withLinks)
+  .add("basic", () => <Subject />)
+  .add("rejected, EXP-1060", () => <SubjectEXP1060 />);
 
 storiesOf("pages/RequestReview/EXP-1055/forms", module)
   .addDecorator(withLinks)
@@ -77,7 +80,3 @@ storiesOf("pages/RequestReview/EXP-1055/forms", module)
       }}
     />
   ));
-
-storiesOf("pages/RequestReview/EXP-1060", module).add("default", () => {
-  return <SubjectEXP1060 />;
-});

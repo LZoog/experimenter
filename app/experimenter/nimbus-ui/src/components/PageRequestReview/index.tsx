@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client";
 import { RouteComponentProps } from "@reach/router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Alert from "react-bootstrap/Alert";
+import FeedbackRejected from ".";
 import { UPDATE_EXPERIMENT_MUTATION } from "../../gql/experiments";
 import { useConfig } from "../../hooks";
 import { ReactComponent as Check } from "../../images/check.svg";
@@ -19,7 +20,6 @@ import {
 import { updateExperiment_updateExperiment as UpdateExperiment } from "../../types/updateExperiment";
 import AppLayoutWithExperiment from "../AppLayoutWithExperiment";
 import Summary from "../Summary";
-import FeedbackRejected from "./FeedbackRejected";
 import FormLaunchDraftToPreview from "./FormLaunchDraftToPreview";
 import FormLaunchDraftToReview from "./FormLaunchDraftToReview";
 import FormLaunchPreviewToReview from "./FormLaunchPreviewToReview";

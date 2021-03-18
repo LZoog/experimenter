@@ -41,22 +41,18 @@ export const Subject = ({
   </RouterSlugProvider>
 );
 
-export const SubjectEXP1060 = ({
-  mocks = [mock],
-  ...pageProps
-}: {
-  mocks?: React.ComponentProps<typeof RouterSlugProvider>["mocks"];
-} & Partial<React.ComponentProps<typeof PageRequestReview>>) => (
-  <MockConfigContext.Provider
-    value={{ featureFlags: { exp1060Preview: true } }}
-  >
-    <RouterSlugProvider mocks={mocks}>
-      <PageRequestReview
-        {...{
-          polling: false,
-          ...pageProps,
-        }}
-      />
-    </RouterSlugProvider>
-  </MockConfigContext.Provider>
-);
+export const SubjectEXP1060 = () => {
+  return (
+    <MockConfigContext.Provider
+      value={{ featureFlags: { exp1060Preview: true } }}
+    >
+      <RouterSlugProvider mocks={[mock, mock]}>
+        <PageRequestReview
+          {...{
+            polling: false,
+          }}
+        />
+      </RouterSlugProvider>
+    </MockConfigContext.Provider>
+  );
+};
