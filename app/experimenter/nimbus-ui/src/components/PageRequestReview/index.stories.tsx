@@ -13,7 +13,7 @@ import { NimbusExperimentStatus } from "../../types/globalTypes";
 import FormApproveConfirm from "./FormApproveConfirm";
 import FormApproveOrRejectLaunch from "./FormApproveOrRejectLaunch";
 import FormRejectReason from "./FormRejectReason";
-import { mock, Subject } from "./mocks";
+import { mock, Subject, SubjectEXP1060 } from "./mocks";
 
 storiesOf("pages/RequestReview", module)
   .addDecorator(withLinks)
@@ -77,3 +77,7 @@ storiesOf("pages/RequestReview/EXP-1055/forms", module)
       }}
     />
   ));
+
+storiesOf("pages/RequestReview/EXP-1060", module).add("default", () => {
+  return <SubjectEXP1060 />;
+});

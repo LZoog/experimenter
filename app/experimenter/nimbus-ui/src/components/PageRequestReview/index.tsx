@@ -7,6 +7,7 @@ import { RouteComponentProps } from "@reach/router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import { UPDATE_EXPERIMENT_MUTATION } from "../../gql/experiments";
+import { useConfig } from "../../hooks";
 import { ReactComponent as Check } from "../../images/check.svg";
 import { SUBMIT_ERROR } from "../../lib/constants";
 import { getStatus } from "../../lib/experiment";
@@ -18,6 +19,7 @@ import {
 import { updateExperiment_updateExperiment as UpdateExperiment } from "../../types/updateExperiment";
 import AppLayoutWithExperiment from "../AppLayoutWithExperiment";
 import Summary from "../Summary";
+import FeedbackRejected from "./FeedbackRejected";
 import FormLaunchDraftToPreview from "./FormLaunchDraftToPreview";
 import FormLaunchDraftToReview from "./FormLaunchDraftToReview";
 import FormLaunchPreviewToReview from "./FormLaunchPreviewToReview";
@@ -30,6 +32,7 @@ const PageRequestReview = ({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const currentExperiment = useRef<getExperiment_experimentBySlug>();
   const refetchReview = useRef<() => void>();
+  const { featureFlags } = useConfig();
 
   const [updateExperiment, { loading }] = useMutation<
     { updateExperiment: UpdateExperiment },
@@ -85,6 +88,14 @@ const PageRequestReview = ({
     [updateExperiment, currentExperiment],
   );
 
+  // TODO: remove this in EXP-1062 when EXP-1060 is final and use real data
+  // from experiment object
+  const rejectFeedback = {
+    reviewerEmail: "<email of reviewer>",
+    reviewDate: "<date>",
+    rejectReason: "Reject reason reject reason reject reason reject reason",
+  };
+
   return (
     <AppLayoutWithExperiment
       title="Review &amp; Launch"
@@ -128,7 +139,9 @@ const PageRequestReview = ({
               </Alert>
             )}
             {status.draft &&
-              (showLaunchDraftToReview ? (
+              (featureFlags.exp1060Preview && rejectFeedback ? (
+                <FeedbackRejected {...rejectFeedback} />
+              ) : showLaunchDraftToReview ? (
                 <FormLaunchDraftToReview
                   {...{
                     isLoading: loading,
