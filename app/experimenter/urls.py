@@ -3,7 +3,11 @@ from django.conf.urls import include, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from experimenter.experiments.views import ExperimentListView, NimbusUIView
+from experimenter.experiments.views import (
+    ExperimentListView,
+    NimbusUIView,
+    PageNotFoundView,
+)
 
 urlpatterns = [
     re_path(r"^api/v1/experiments/", include("experimenter.experiments.api.v1.urls")),
@@ -17,6 +21,8 @@ urlpatterns = [
     re_path(r"^nimbus/(?P<slug>[\w-]+)/", NimbusUIView.as_view(), name="nimbus-detail"),
     re_path(r"^$", ExperimentListView.as_view(), name="home"),
 ]
+
+handler404 = PageNotFoundView.as_view()
 
 if settings.DEBUG:
     urlpatterns = (

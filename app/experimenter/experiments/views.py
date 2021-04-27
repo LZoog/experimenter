@@ -230,3 +230,7 @@ class ExperimentCommentCreateView(ExperimentFormMixin, CreateView):
 
 class NimbusUIView(TemplateView):
     template_name = "nimbus/index.html"
+
+
+class PageNotFoundView(TemplateView):
+    template_name = "nimbus/404.html"
